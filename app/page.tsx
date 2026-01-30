@@ -10,7 +10,7 @@ import ScrollSequenceBackground from "@/components/background/ScrollSequenceBack
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  
+
   const handleScrollProgress = useCallback((progress: number) => {
     setScrollProgress(progress);
   }, []);
@@ -52,14 +52,14 @@ export default function Home() {
   const playButtonProgress = Math.max(0, Math.min(1, (scrollProgress - 0.92) / 0.05));
   const playButtonEased = 1 - Math.pow(1 - playButtonProgress, 3);
   const playButtonOpacity = playButtonEased;
-  const playButtonScale = 0.5 + (playButtonEased * 0.5); 
+  const playButtonScale = 0.5 + (playButtonEased * 0.5);
 
   // Image shrinks continuously from when it appears (89%+)
-  const shrinkProgress = Math.max(0, Math.min(1, (scrollProgress - 0.89) / 0.10)); 
-  const shrinkEased = shrinkProgress * shrinkProgress * (3 - 2 * shrinkProgress); 
-  
+  const shrinkProgress = Math.max(0, Math.min(1, (scrollProgress - 0.89) / 0.10));
+  const shrinkEased = shrinkProgress * shrinkProgress * (3 - 2 * shrinkProgress);
+
   const imageWidthVw = 95 - (shrinkEased * 25);
-  const imageMaxWidth = 1400 - (shrinkEased * 500); 
+  const imageMaxWidth = 1400 - (shrinkEased * 500);
 
   const handlePlayVideo = () => {
     setIsVideoPlaying(true);
@@ -71,24 +71,18 @@ export default function Home() {
       <ScrollSequenceBackground onScrollProgress={handleScrollProgress} />
 
       {/* Navigation - stays fixed, just fades out (0-10% scroll) */}
-      <div 
-        className="fixed top-0 left-0 right-0 z-20 will-change-transform"
-        style={{ 
-          opacity: navOpacity,
-          filter: `blur(${navBlur}px)`,
-          pointerEvents: navOpacity < 0.1 ? 'none' : 'auto'
-        }}
-      >
-        <Navigation />
-      </div>
+      <Navigation
+        navOpacity={navOpacity}
+        navBlur={navBlur}
+      />
 
       {/* Fixed container with perspective for 3D depth effect - Hero & TrustedBy only */}
-      <div 
+      <div
         className="fixed inset-0 z-10 pointer-events-none"
         style={{ perspective: '1000px', perspectiveOrigin: 'center center' }}
       >
         {/* Hero & TrustedBy container - moves back together */}
-        <div 
+        <div
           className="absolute inset-0 will-change-transform"
           style={{
             transform: `scale(${globalScale}) translateZ(${globalTranslateZ}px)`,
@@ -96,9 +90,9 @@ export default function Home() {
           }}
         >
           {/* Hero & TrustedBy Container - fade out together (11-21% scroll) */}
-          <div 
+          <div
             className="absolute inset-0 flex flex-col items-center pt-20 md:pt-24 will-change-transform"
-            style={{ 
+            style={{
               opacity: contentOpacity,
               filter: `blur(${contentBlur}px)`,
               pointerEvents: contentOpacity < 0.1 ? 'none' : 'auto'
@@ -118,7 +112,7 @@ export default function Home() {
       </div>
 
       {/* Video Section - Image appears first, then play button */}
-      <div 
+      <div
         className="fixed inset-0 flex items-center justify-center z-20"
         style={{
           opacity: imageOpacity,
@@ -128,7 +122,7 @@ export default function Home() {
           pointerEvents: imageOpacity > 0.3 ? 'auto' : 'none',
         }}
       >
-        <div 
+        <div
           className="relative aspect-video rounded-2xl overflow-hidden bg-[#1a2e1a]"
           style={{
             width: `${imageWidthVw}vw`,
@@ -140,8 +134,8 @@ export default function Home() {
         >
           {!isVideoPlaying ? (
             // Video thumbnail with play button
-            <div 
-              className="relative w-full h-full group cursor-pointer" 
+            <div
+              className="relative w-full h-full group cursor-pointer"
               onClick={playButtonOpacity > 0.5 ? handlePlayVideo : undefined}
               style={{ cursor: playButtonOpacity > 0.5 ? 'pointer' : 'default' }}
             >
@@ -157,17 +151,17 @@ export default function Home() {
                 sizes="(max-width: 768px) 85vw, 1000px"
                 priority
               />
-              
+
               {/* Dark overlay - appears with play button */}
-              <div 
+              <div
                 className="absolute inset-0 transition-colors duration-500"
                 style={{
                   backgroundColor: `rgba(0, 0, 0, ${0.3 * playButtonOpacity})`,
                 }}
               />
-              
+
               {/* Play button - appears at 92% */}
-              <div 
+              <div
                 className="absolute inset-0 flex items-center justify-center"
                 style={{
                   opacity: playButtonOpacity,
@@ -175,24 +169,24 @@ export default function Home() {
                   transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
-                <div 
+                <div
                   className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/95 flex items-center justify-center transform hover:scale-110 transition-all duration-500 ease-out"
                   style={{
                     boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(255,255,255,0.15)',
                   }}
                 >
-                  <svg 
-                    className="w-8 h-8 md:w-10 md:h-10 text-[#1a2e1a] ml-1" 
-                    fill="currentColor" 
+                  <svg
+                    className="w-8 h-8 md:w-10 md:h-10 text-[#1a2e1a] ml-1"
+                    fill="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
               </div>
-              
+
               {/* Watch Demo text - appears with play button */}
-              <div 
+              <div
                 className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
                 style={{
                   opacity: playButtonOpacity,
@@ -216,13 +210,13 @@ export default function Home() {
             />
           )}
         </div>
-        
+
         {/* Ambient glow behind video */}
-        <div 
+        <div
           className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none"
           style={{ opacity: imageOpacity * 0.5 }}
         >
-          <div 
+          <div
             className="w-[90vw] max-w-6xl aspect-video rounded-3xl blur-3xl"
             style={{
               background: 'radial-gradient(ellipse at center, rgba(74, 124, 89, 0.3) 0%, transparent 70%)'

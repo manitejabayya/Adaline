@@ -32,7 +32,8 @@
 }
 
 html {
-  scroll-behavior: auto; /* Disable smooth scroll for better GSAP ScrollTrigger control */
+  scroll-behavior: auto;
+  /* Disable smooth scroll for better GSAP ScrollTrigger control */
 }
 
 body {
@@ -108,7 +109,7 @@ body {
   pointer-events: none;
 }
 
-.pin-spacer > * {
+.pin-spacer>* {
   pointer-events: auto;
 }
 
@@ -116,7 +117,7 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .gradient-text {
     background: linear-gradient(135deg, #8b5cf6, #3b82f6, #06b6d4);
     -webkit-background-clip: text;
@@ -124,28 +125,28 @@ body {
     background-clip: text;
     color: transparent;
   }
-  
+
   .gradient-text-white {
     background: linear-gradient(135deg, #ffffff, #a0a0a0);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .gradient-bg {
     background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
   }
-  
+
   .gradient-bg-subtle {
     background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.05));
   }
-  
+
   .glass {
     background: rgba(17, 17, 17, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
-  
+
   .radial-gradient {
     background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.15), transparent 70%);
   }
@@ -156,6 +157,7 @@ body {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -166,9 +168,11 @@ body {
     transform: translateX(10%);
     opacity: 0;
   }
+
   20% {
     opacity: 1;
   }
+
   100% {
     transform: translateX(0);
     opacity: 1;
@@ -177,5 +181,24 @@ body {
 
 .animate-marquee {
   animation: marquee-enter 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-             marquee 20s linear 1.5s infinite;
+    marquee 20s linear 1.5s infinite;
+}
+
+/* Slow rotation animation for mobile menu icons */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-slow-reverse {
+  animation: spin-slow 20s linear infinite reverse;
 }
