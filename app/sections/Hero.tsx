@@ -2,10 +2,10 @@
 
 export default function Hero() {
   return (
-    <section className="relative pt-24 md:pt-28 pb-6">
-      <div className="max-w-5xl mx-auto text-center px-6">
+    <section className="relative pt-8 md:pt-12 pb-8 md:pb-10">
+      <div className="max-w-4xl mx-auto text-center px-6">
         <h1 
-          className="text-[#1a2e1a] text-[1.75rem] sm:text-[2rem] md:text-[2.75rem] lg:text-[3.25rem] font-normal leading-[1.15] tracking-[-0.02em]"
+          className="text-[#1a2e1a] text-[1.5rem] sm:text-[1.75rem] md:text-[2.25rem] lg:text-[2.75rem] font-normal leading-[1.2] tracking-[-0.02em]"
           style={{ fontFamily: 'var(--font-akkurat)' }}
         >
           The single platform to iterate,

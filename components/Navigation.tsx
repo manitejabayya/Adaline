@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 
 // Product menu items
 const productItems = [
@@ -45,12 +45,20 @@ const productItems = [
   },
 ];
 
-export default function Navigation() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+interface NavigationProps {
+  className?: string;
+}
 
-  return (
-    <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 lg:px-12 py-4 bg-transparent">
+const Navigation = forwardRef<HTMLDivElement, NavigationProps>(
+  function Navigation({ className = "" }, ref) {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    return (
+      <>
+        <nav 
+          ref={ref}
+          className={`fixed top-0 left-0 right-0 z-50 px-4 md:px-8 lg:px-12 py-4 bg-transparent will-change-transform ${className}`}
+        >
         <div className="w-full flex items-center justify-between">
           {/* Logo - Left on mobile, Center on desktop */}
           <div className="md:hidden">
@@ -271,3 +279,6 @@ export default function Navigation() {
     </>
   );
 }
+);
+
+export default Navigation;

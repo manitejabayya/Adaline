@@ -22,6 +22,7 @@ module.exports = {
         'slide-in-left': 'slideInLeft 0.6s ease-out',
         'slide-in-right': 'slideInRight 0.6s ease-out',
         'counter': 'counter 2s ease-out',
+        'marquee': 'marquee 30s linear infinite',
       },
       keyframes: {
         fadeInUp: {
@@ -43,6 +44,10 @@ module.exports = {
         counter: {
           '0%': { opacity: '0', transform: 'scale(0.5)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       },
     },

@@ -260,7 +260,6 @@ export default function ScrollSequenceBackground({
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const scrollProgress = Math.min(1, Math.max(0, scrollY / maxScroll));
       
-      // Map scroll progress to frame index
       // The smoothDamp in the animation loop will handle smooth interpolation
       targetFrameRef.current = scrollProgress * (TOTAL_FRAMES - 1);
       
@@ -302,7 +301,6 @@ export default function ScrollSequenceBackground({
       const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
       
-      // Device pixel ratio for sharp rendering on retina/high-DPI displays
       // Cap at 2 for performance on very high DPI devices
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { forwardRef } from "react";
 
 // Company logos from the Assets folder - matching the target order
 const companies = [
@@ -13,80 +13,61 @@ const companies = [
   { name: "HubSpot", logo: "/Assets/image%20(10).svg" },
 ];
 
-export default function TrustedBy() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // Trigger animation after component mounts
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <section className="relative py-4 mt-2">
-      {/* Trusted By Label */}
-      <div 
-        className={`text-center mb-5 transition-all duration-700 ease-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-        }`}
-      >
-        <span className="text-[#6b7c6b] text-[10px] md:text-[11px] font-medium tracking-[0.2em] uppercase">
-          TRUSTED BY
-        </span>
-      </div>
-
-      {/* Infinite Scrolling Logos Container */}
-      <div 
-        className={`relative overflow-hidden mx-auto max-w-5xl transition-all duration-1000 ease-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-        style={{ 
-          transitionDelay: '400ms',
-          maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)'
-        }}
-      >
-        {/* Scrolling container - moves right to left */}
-        <div 
-          className={`flex items-center ${isVisible ? 'animate-marquee' : ''}`}
-          style={{ width: 'fit-content' }}
-        >
-          {/* First set of logos */}
-          {companies.map((company, index) => (
-            <div
-              key={`first-${index}`}
-              className="flex-shrink-0 mx-8 md:mx-12 lg:mx-16 flex items-center justify-center h-8"
-            >
-              <Image
-                src={company.logo}
-                alt={company.name}
-                width={120}
-                height={32}
-                className="h-4 md:h-5 w-auto object-contain"
-                style={{ filter: 'brightness(0.2)' }}
-              />
-            </div>
-          ))}
-          {/* Second set for seamless loop */}
-          {companies.map((company, index) => (
-            <div
-              key={`second-${index}`}
-              className="flex-shrink-0 mx-8 md:mx-12 lg:mx-16 flex items-center justify-center h-8"
-            >
-              <Image
-                src={company.logo}
-                alt={company.name}
-                width={120}
-                height={32}
-                className="h-4 md:h-5 w-auto object-contain"
-                style={{ filter: 'brightness(0.2)' }}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+interface TrustedByProps {
+  labelRef?: React.RefObject<HTMLDivElement>;
+  logosRef?: React.RefObject<HTMLDivElement>;
 }
+
+const TrustedBy = forwardRef<HTMLElement, TrustedByProps>(
+  function TrustedBy({ labelRef, logosRef }, ref) {
+    // Duplicate logos for seamless infinite scroll
+    const duplicatedCompanies = [...companies, ...companies];
+
+    return (
+      <section 
+        ref={ref}
+        className="relative w-full py-2 md:py-4 will-change-transform"
+      >
+        {/* Trusted By Label */}
+        <div 
+          ref={labelRef}
+          className="text-center mb-3 will-change-transform"
+        >
+          <span className="text-[#6b7c6b] text-[9px] md:text-[10px] font-medium tracking-[0.25em] uppercase">
+            TRUSTED BY
+          </span>
+        </div>
+
+        {/* Logos Container - centered with mask for smooth fade */}
+        <div 
+          ref={logosRef}
+          className="relative mx-auto max-w-3xl overflow-hidden px-4"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+          }}
+        >
+          <div className="flex items-center gap-12 md:gap-16 lg:gap-20 animate-marquee w-max">
+            {duplicatedCompanies.map((company, index) => (
+              <div
+                key={index}
+                className="logo-item flex-shrink-0 flex items-center justify-center h-6 will-change-transform"
+              >
+                <Image
+                  src={company.logo}
+                  alt={company.name}
+                  width={100}
+                  height={24}
+                  className="h-4 md:h-5 w-auto object-contain"
+                  style={{ filter: 'brightness(0.25)' }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+);
+
+export default TrustedBy;

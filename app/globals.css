@@ -32,7 +32,7 @@
 }
 
 html {
-  scroll-behavior: auto; /* Disable smooth scroll for better animation control */
+  scroll-behavior: auto; /* Disable smooth scroll for better GSAP ScrollTrigger control */
 }
 
 body {
@@ -45,12 +45,71 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* GPU acceleration for smooth animations */
-.gpu-accelerated {
+/* ========================================
+   GPU ACCELERATION & PERFORMANCE
+   ======================================== */
+
+/* Force GPU acceleration for smooth animations */
+.gpu-accelerated,
+.will-change-transform {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
   will-change: transform, opacity;
+}
+
+/* Prevent layout thrashing during animations */
+.gsap-pinned {
+  position: fixed !important;
+  backface-visibility: hidden;
+}
+
+/* ========================================
+   BLUR & FILTER UTILITIES
+   ======================================== */
+
+/* Custom blur classes for navbar animation */
+.blur-none {
+  filter: blur(0);
+}
+
+.blur-sm {
+  filter: blur(4px);
+}
+
+.blur-md {
+  filter: blur(10px);
+}
+
+.blur-lg {
+  filter: blur(16px);
+}
+
+/* Smooth filter transitions */
+[style*="filter"] {
+  transition-property: filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   SCROLL PROGRESS CUSTOM PROPERTY
+   ======================================== */
+
+:root {
+  --scroll-progress: 0;
+}
+
+/* ========================================
+   PIN SPACER FIX
+   ======================================== */
+
+/* Ensure pin spacer doesn't create visual artifacts */
+.pin-spacer {
+  pointer-events: none;
+}
+
+.pin-spacer > * {
+  pointer-events: auto;
 }
 
 @layer utilities {
